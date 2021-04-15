@@ -6,11 +6,21 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <title>Git hub api</title>
     </head>
 
     <body>
-        <div id="root"></div>
+        <div id="root">
+            <form id="form">
+                <input id="description" type="text" placeholder="Filter by title, companies, expertise">
+                <input id="location" type="text" placeholder="Filter by location">
+                <input id="checkBox" type="checkBox">Full time only
+                <button>Search</button>
+            </form>
+            <div id="jobsList"></div>
+        </div>
+
         <script src="app.js"></script>
     </body>
 

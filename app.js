@@ -1,21 +1,34 @@
 const root = document.getElementById('root');
+const jobsList = document.getElementById('jobsList');
+const form = document.getElementById('form');
+const locationInput = document.getElementById('location');
+const description = document.getElementById('description');
+const checkBox = document.getElementById('checkBox');
 
 const handleSelectJob = async (id) => {
-  const res = await fetch(
-    `https://cors.bridged.cc/https://jobs.github.com/positions/${id}.json`
-  );
-  const data = await res.json();
-  const detalis = jobDetails(data);
-  root.innerHTML = detalis;
-  console.log(data);
+  try {
+    const res = await axios.get(
+      `https://cors.bridged.cc/https://jobs.github.com/positions/${id}.json`
+    );
+
+    const detalis = jobDetails(res.data);
+    root.innerHTML = detalis;
+  } catch (errors) {
+    console.log(errors);
+  }
 };
 
-const fetchData = async () => {
-  const res = await fetch(
-    'https://cors.bridged.cc/https://jobs.github.com/positions.json'
-  );
-  const data = await res.json();
-  return data;
+const fetchData = async (params = {}) => {
+  try {
+    const res = await axios.get(
+      'https://cors.bridged.cc/https://jobs.github.com/positions.json',
+      { params }
+    );
+
+    return res.data;
+  } catch (errors) {
+    console.log(errors);
+  }
 };
 
 const JobCard = (job) => {
@@ -49,16 +62,26 @@ const jobDetails = (job) => {
   return details;
 };
 
-const renderJobs = async () => {
-  const jobs = await fetchData();
+const renderJobs = async (params = {}) => {
+  const jobs = await fetchData(params);
 
   jobs.forEach((job) => {
     const card = JobCard(job);
-    root.append(card);
+    jobsList.append(card);
     card.addEventListener('click', () => {
       handleSelectJob(card.id);
     });
   });
 };
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const params = {};
+  if (locationInput.value) params.location = locationInput.value;
+  if (description.value) params.location = description.value;
+  if (checkBox.checked) params.full_time = 'on';
+  jobsList.innerHTML = '';
+  renderJobs(params);
+});
 
 renderJobs();
