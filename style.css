@@ -1,1 +1,151 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+body {
+  background: #f4f6f8;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* navbar */
+
+.navbar {
+  background: url('./assets/desktop/bg-pattern-header.svg');
+  height: 162px;
+  margin-bottom: 20px;
+}
+
+.nav-flex {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 45px;
+}
+.mode {
+  display: flex;
+  align-items: center;
+}
+.mode img {
+  width: 15px;
+  height: 15px;
+}
+
+.toggle-container {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+  pointer-events: none;
+  margin: 0 8px;
+}
+
+.toggle-container input {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: all;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+  background-color: #ffffff;
+  transition: 0.4s;
+  pointer-events: none;
+}
+
+.slider::before {
+  content: '';
+  position: absolute;
+  height: 15px;
+  width: 15px;
+  left: 8px;
+  bottom: 4px;
+  background-color: #000;
+  transition: 0.2s;
+  pointer-events: none;
+}
+
+.slider::after {
+  position: absolute;
+  content: '';
+  height: 24px;
+  width: 24px;
+  right: 10px;
+  bottom: 6px;
+  transition: 0.2s;
+  pointer-events: none;
+  color: #fff;
+}
+
+.toggle-container input:checked + .slider:before {
+  transform: translateX(20px);
+}
+.toggle-container input:checked + .slider:after {
+  content: '';
+  left: 8px;
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* search  form */
+
+#form {
+  background: #ffffff;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  transform: translateY(-50px);
+}
+
+#form div {
+  border-right: #f4f6f8 0.5px solid;
+  height: 100%;
+  margin-left: 0;
+  padding: 20px;
+}
+
+#form .field {
+  min-width: 300px;
+}
+
+#form .field input {
+  width: 80%;
+  border: none;
+  padding: 10px;
+}
+
+#form .field input::placeholder {
+  font-size: 16px;
+  line-height: 16px;
+  opacity: 50%;
+}
+
+#form .checkBoxDiv {
+  padding: 30px;
+}
+
+#form .checkBoxDiv label {
+  margin-left: 10px;
+}
+
+#form button {
+  margin-left: auto;
+  margin-right: 15px;
+}

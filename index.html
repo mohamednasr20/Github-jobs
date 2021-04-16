@@ -12,10 +12,33 @@
 
     <body>
         <div id="root">
-            <form id="form">
-                <input id="description" type="text" placeholder="Filter by title, companies, expertise">
-                <input id="location" type="text" placeholder="Filter by location">
-                <input id="checkBox" type="checkBox">Full time only
+            <nav class="navbar">
+                <div class="nav-flex container">
+                    <div class="logo"><img src="./assets/desktop/logo.svg" alt="logo"></div>
+                    <div class="mode">
+                        <img src="./assets/desktop/icon-sun.svg" alt="sun">
+                        <div class="toggle-container">
+                            <input type="checkbox" />
+                            <div class="slider round"></div>
+                        </div>
+                        <img src="./assets/desktop/icon-moon.svg" alt="moon">
+                    </div>
+                </div>
+            </nav>
+            <form id="form" class="container">
+                <div class="field">
+                    <img src="./assets/desktop/icon-search.svg" alt="search">
+                    <input id="description" type="text" placeholder="Filter by title, companies ..">
+                </div>
+                <div class="field">
+                    <img src="./assets/desktop/icon-location.svg" alt="location">
+                    <input id="location" type="text" placeholder="Filter by location">
+                </div>
+
+                <div class="checkBoxDiv">
+                    <input id="checkBox" type="checkBox" name="checkBox">
+                    <label for="checkBox">Full Time only</label>
+                </div>
                 <button>Search</button>
             </form>
             <div id="jobsList"></div>
