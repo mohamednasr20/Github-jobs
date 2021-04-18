@@ -1,3 +1,17 @@
+:root {
+  --background: #f4f6f8;
+  --text-color: #6e8098;
+  --main-color: #5964e0;
+  --main-hover: #939bf4;
+  --secondary-color: #ffffff;
+}
+
+:root .dark-theme {
+  --background: #121721;
+  --text-color: #9daec2;
+  --secondary-color: #19202d;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,12 +19,27 @@
 }
 
 body {
-  background: #f4f6f8;
+  background: var(--background);
+  color: var(--text-color);
+  transition: all ease-in-out 0.3s;
 }
 
 .container {
   max-width: 1100px;
   margin: auto;
+}
+
+.btn {
+  color: #ffffff;
+  background: var(--main-color);
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--main-hover);
 }
 
 /* navbar */
@@ -70,7 +99,7 @@ body {
   width: 15px;
   left: 8px;
   bottom: 4px;
-  background-color: #000;
+  background-color: var(--main-color);
   transition: 0.2s;
   pointer-events: none;
 }
@@ -106,16 +135,16 @@ body {
 /* search  form */
 
 #form {
-  background: #ffffff;
+  background: var(--secondary-color);
   height: 80px;
   display: flex;
   align-items: center;
   border-radius: 6px;
-  transform: translateY(-50px);
+  transform: translateY(-40px);
 }
 
 #form div {
-  border-right: #f4f6f8 0.5px solid;
+  border-right: var(--background) 0.5px solid;
   height: 100%;
   margin-left: 0;
   padding: 20px;
@@ -129,20 +158,42 @@ body {
   width: 80%;
   border: none;
   padding: 10px;
+  color: var(--text-color);
+  background: var(--secondary-color);
 }
 
 #form .field input::placeholder {
   font-size: 16px;
   line-height: 16px;
   opacity: 50%;
+  color: var(--text-color);
 }
 
-#form .checkBoxDiv {
+#form .checkboxDiv {
   padding: 30px;
 }
 
-#form .checkBoxDiv label {
-  margin-left: 10px;
+.checkboxDiv input[type='checkbox'] {
+  display: none;
+}
+
+.checkboxDiv input[type='checkbox'] + *::before {
+  content: '';
+  display: inline-block;
+  vertical-align: bottom;
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  background: #f4f6f8;
+  border-radius: 5px;
+}
+
+.checkboxDiv input[type='checkbox']:checked + *::before {
+  content: '✓';
+  color: white;
+  text-align: center;
+  background: var(--main-color);
+  border-color: var(--main-color);
 }
 
 #form button {

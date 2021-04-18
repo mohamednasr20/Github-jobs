@@ -11,20 +11,20 @@
     </head>
 
     <body>
-        <div id="root">
-            <nav class="navbar">
-                <div class="nav-flex container">
-                    <div class="logo"><img src="./assets/desktop/logo.svg" alt="logo"></div>
-                    <div class="mode">
-                        <img src="./assets/desktop/icon-sun.svg" alt="sun">
-                        <div class="toggle-container">
-                            <input type="checkbox" />
-                            <div class="slider round"></div>
-                        </div>
-                        <img src="./assets/desktop/icon-moon.svg" alt="moon">
+        <nav class="navbar">
+            <div class="nav-flex container">
+                <div class="logo"><img src="./assets/desktop/logo.svg" alt="logo"></div>
+                <div class="mode">
+                    <img src="./assets/desktop/icon-sun.svg" alt="sun">
+                    <div class="toggle-container">
+                        <input id="toggleInput" type="checkbox" />
+                        <div class="slider round"></div>
                     </div>
+                    <img src="./assets/desktop/icon-moon.svg" alt="moon">
                 </div>
-            </nav>
+            </div>
+        </nav>
+        <div id="content">
             <form id="form" class="container">
                 <div class="field">
                     <img src="./assets/desktop/icon-search.svg" alt="search">
@@ -35,15 +35,14 @@
                     <input id="location" type="text" placeholder="Filter by location">
                 </div>
 
-                <div class="checkBoxDiv">
-                    <input id="checkBox" type="checkBox" name="checkBox">
-                    <label for="checkBox">Full Time only</label>
+                <div class="checkboxDiv">
+                    <input id="checkBox" type="checkbox" name="checkBox">
+                    <label for="checkBox">Full time only</label>
                 </div>
-                <button>Search</button>
+                <button class="btn">Search</button>
             </form>
             <div id="jobsList"></div>
         </div>
-
         <script src="app.js"></script>
     </body>
 

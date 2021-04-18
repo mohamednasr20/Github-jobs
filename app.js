@@ -1,9 +1,10 @@
-const root = document.getElementById('root');
+const content = document.getElementById('content');
 const jobsList = document.getElementById('jobsList');
 const form = document.getElementById('form');
 const locationInput = document.getElementById('location');
 const description = document.getElementById('description');
-const checkBox = document.getElementById('checkBox');
+const fullTimeInput = document.getElementById('checkBox');
+const toggleInput = document.getElementById('toggleInput');
 
 const handleSelectJob = async (id) => {
   try {
@@ -12,7 +13,7 @@ const handleSelectJob = async (id) => {
     );
 
     const detalis = jobDetails(res.data);
-    root.innerHTML = detalis;
+    content.innerHTML = detalis;
   } catch (errors) {
     console.log(errors);
   }
@@ -79,9 +80,17 @@ form.addEventListener('submit', (e) => {
   const params = {};
   if (locationInput.value) params.location = locationInput.value;
   if (description.value) params.location = description.value;
-  if (checkBox.checked) params.full_time = 'on';
+  if (fullTimeInput.checked) params.full_time = 'on';
   jobsList.innerHTML = '';
   renderJobs(params);
+});
+
+toggleInput.addEventListener('click', () => {
+  if (toggleInput.checked) {
+    document.body.classList.add('dark-theme');
+  } else {
+    document.body.classList.remove('dark-theme');
+  }
 });
 
 renderJobs();
