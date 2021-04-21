@@ -6,6 +6,8 @@ const description = document.getElementById('description');
 const fullTimeInput = document.getElementById('checkBox');
 const toggleInput = document.getElementById('toggleInput');
 
+// fetch single job
+
 const handleSelectJob = async (id) => {
   try {
     const res = await axios.get(
@@ -19,31 +21,62 @@ const handleSelectJob = async (id) => {
   }
 };
 
+// fetch all Jobs list
+
 const fetchData = async (params = {}) => {
   try {
     const res = await axios.get(
       'https://cors.bridged.cc/https://jobs.github.com/positions.json',
       { params }
     );
-
+    console.log(res.data);
     return res.data;
   } catch (errors) {
     console.log(errors);
   }
 };
 
+// get the job date
+
+const getTimeByDifference = (date) => {
+  const timeDifference = new Date().getTime() - new Date(date).getTime();
+  const day = 1000 * 60 * 60 * 24;
+  const hour = 1000 * 60 * 60;
+
+  const timeByDays = Math.round(timeDifference / day);
+  const timeByHours = Math.round(timeDifference / hour);
+
+  return timeByDays > 0 ? `${timeByDays}d ago` : `${timeByHours}h ago`;
+};
+
+// create job card
+
 const JobCard = (job) => {
   const card = document.createElement('div');
+  card.classList.add('job-card');
   card.id = job.id;
+  const time = getTimeByDifference(job.created_at);
+
+  const companyLogo = job.company_logo
+    ? `
+  <img class="company-logo" src=${job.company_logo} alt=${job.company}>`
+    : '<div class="company-logo"></div>';
+
   card.innerHTML = `
-   <p>${job.type}</p>
-   <h3>${job.title}</h3>
-   <p>${job.company}</p>
-   <p>${job.location}</p>
+  ${companyLogo}
+  <div class="card-content">
+    <p>${time} . ${job.type}</p>
+    <h3>${job.title}</h3>
+    <p>${job.company}</p>
+    <p class="location">${job.location}</p>
+  </div>
+   
    `;
 
   return card;
 };
+
+// show job details
 
 const jobDetails = (job) => {
   const details = `
@@ -62,6 +95,8 @@ const jobDetails = (job) => {
    `;
   return details;
 };
+
+// render All jobs list
 
 const renderJobs = async (params = {}) => {
   const jobs = await fetchData(params);
@@ -84,6 +119,8 @@ form.addEventListener('submit', (e) => {
   jobsList.innerHTML = '';
   renderJobs(params);
 });
+
+// dark and light theme
 
 toggleInput.addEventListener('click', () => {
   if (toggleInput.checked) {

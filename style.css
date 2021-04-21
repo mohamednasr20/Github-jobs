@@ -4,12 +4,14 @@
   --main-color: #5964e0;
   --main-hover: #939bf4;
   --secondary-color: #ffffff;
+  --heading-text: #19202d;
 }
 
 :root .dark-theme {
   --background: #121721;
   --text-color: #9daec2;
   --secondary-color: #19202d;
+  --heading-text: #ffffff;
 }
 
 * {
@@ -23,6 +25,8 @@ body {
   color: var(--text-color);
   transition: all ease-in-out 0.3s;
 }
+
+/* utilities */
 
 .container {
   max-width: 1100px;
@@ -199,4 +203,45 @@ body {
 #form button {
   margin-left: auto;
   margin-right: 15px;
+}
+
+/* cards  */
+
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 25px;
+}
+.job-card {
+  height: 250px;
+  max-width: 350px;
+  cursor: pointer;
+}
+
+.job-card p,
+.job-card h3 {
+  margin: 10px 0;
+}
+
+.job-card h3 {
+  color: var(--heading-text);
+}
+
+.job-card .card-content {
+  background: var(--secondary-color);
+  height: 200px;
+  padding: 40px 20px;
+  border-radius: 5px;
+}
+
+.job-card .card-content .location {
+  margin-top: 20px;
+  color: var(--main-color);
+}
+
+.job-card .company-logo {
+  width: 50px;
+  height: 50px;
+
+  transform: translate(20px, 25px);
 }
