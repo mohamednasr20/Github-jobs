@@ -97,27 +97,55 @@ const jobDetails = (job) => {
 };
 
 // render All jobs list
+let count = 12;
+const btn = document.createElement('button');
 
-const renderJobs = async (params = {}) => {
-  const jobs = await fetchData(params);
+const handleBtnVisabilty = (jobs) => {
+  if (count === 12 && jobs.length > count) {
+    btn.innerText = 'Load More';
+    btn.classList.add('btn');
+    btn.classList.remove('hide');
 
-  jobs.forEach((job) => {
-    const card = JobCard(job);
-    jobsList.append(card);
-    card.addEventListener('click', () => {
-      handleSelectJob(card.id);
+    jobsList.after(btn);
+    btn.addEventListener('click', () => {
+      count = 50;
+      renderJobs();
     });
-  });
+  } else {
+    btn.classList.add('hide');
+  }
 };
 
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
+const createJobList = async (params = {}) => {
+  const jobs = await fetchData(params);
+  if (!jobs.length) {
+    jobsList.innerHTML = '<div>There is no jobs with these description</div>';
+  } else {
+    jobs.forEach((job, i) => {
+      if (i < count) {
+        const card = JobCard(job);
+        jobsList.append(card);
+        card.addEventListener('click', () => {
+          handleSelectJob(card.id);
+        });
+      }
+    });
+  }
+  handleBtnVisabilty(jobs);
+};
+
+const renderJobs = () => {
   const params = {};
   if (locationInput.value) params.location = locationInput.value;
   if (description.value) params.location = description.value;
   if (fullTimeInput.checked) params.full_time = 'on';
   jobsList.innerHTML = '';
-  renderJobs(params);
+  createJobList(params);
+};
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  renderJobs();
 });
 
 // dark and light theme
@@ -130,4 +158,4 @@ toggleInput.addEventListener('click', () => {
   }
 });
 
-renderJobs();
+createJobList();
