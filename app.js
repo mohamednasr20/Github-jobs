@@ -5,16 +5,18 @@ const locationInput = document.getElementById('location');
 const description = document.getElementById('description');
 const fullTimeInput = document.getElementById('checkBox');
 const toggleInput = document.getElementById('toggleInput');
+const logo = document.getElementById('logo');
 
 // fetch single job
 
 const handleSelectJob = async (id) => {
   try {
     const res = await axios.get(
-      `https://cors.bridged.cc/https://jobs.github.com/positions/${id}.json`
+      `https://cors.bridged.cc/https://jobs.github.com/positions/${id}.json?markdown=true`
     );
 
     const detalis = jobDetails(res.data);
+    console.log(res.data);
     content.innerHTML = detalis;
   } catch (errors) {
     console.log(errors);
@@ -49,6 +51,12 @@ const getTimeByDifference = (date) => {
   return timeByDays > 0 ? `${timeByDays}d ago` : `${timeByHours}h ago`;
 };
 
+const companyLogo = (job) => {
+  return job.company_logo
+    ? `
+<img class="company-logo" src=${job.company_logo} alt=${job.company}>`
+    : '<div class="company-logo"></div>';
+};
 // create job card
 
 const JobCard = (job) => {
@@ -57,13 +65,8 @@ const JobCard = (job) => {
   card.id = job.id;
   const time = getTimeByDifference(job.created_at);
 
-  const companyLogo = job.company_logo
-    ? `
-  <img class="company-logo" src=${job.company_logo} alt=${job.company}>`
-    : '<div class="company-logo"></div>';
-
   card.innerHTML = `
-  ${companyLogo}
+  ${companyLogo(job)}
   <div class="card-content">
     <p>${time} . ${job.type}</p>
     <h3>${job.title}</h3>
@@ -80,19 +83,31 @@ const JobCard = (job) => {
 
 const jobDetails = (job) => {
   const details = `
-     <h3>${job.company}</h3>
-     <a href="${job.company_url}">Company</a>
-     <p>${job.type}</p>
-     <h2>${job.title}</h2>
-     <p>${job.location}</p>
-     <div>${job.description}}</div>
-     <h4>How to Apply</h4>
-     <div>${job.how_to_apply}</div>
-     <div>
-      <h3>${job.title}</h3>
-      <p>${job.company}</p>
-     </div>
-   `;
+  
+  <div class="flex job-header container">
+  ${companyLogo(job)}
+  <h2>${job.company}</h2>
+  <button class="btn"><a href="${job.company_url}">Company Site</a></button>
+ </div>
+  <div class="container job-details">
+    
+ 
+    <p class="margin-l">${job.type} <span >.${getTimeByDifference(
+    job.created_at
+  )}</span></p>
+    <div class="flex">
+     <h1 "class="margin-l">${job.title}</h1>
+     <button class="btn"><a href="${job.how_to_apply}">Apply Now</a></button>
+    </div>
+    <p class="location">${job.location}</p>
+  <div class="job-description">${job.description}</div>
+    <h3 class="margin-l">${job.title}</h3>
+    <p>${job.company}</p>
+  </div>
+  </div>
+
+ `;
+
   return details;
 };
 
@@ -119,7 +134,8 @@ const handleBtnVisabilty = (jobs) => {
 const createJobList = async (params = {}) => {
   const jobs = await fetchData(params);
   if (!jobs.length) {
-    jobsList.innerHTML = '<div>There is no jobs with these description</div>';
+    jobsList.innerHTML =
+      '<h3 class="message">There is no jobs with these description</h3>';
   } else {
     jobs.forEach((job, i) => {
       if (i < count) {
@@ -157,5 +173,7 @@ toggleInput.addEventListener('click', () => {
     document.body.classList.remove('dark-theme');
   }
 });
+
+logo.addEventListener('click', () => window.location.reload());
 
 createJobList();
