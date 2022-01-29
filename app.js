@@ -9,28 +9,25 @@ const logo = document.getElementById('logo');
 
 // fetch single job
 
-const handleSelectJob = async (id) => {
-  try {
-    const res = await axios.get(
-      `https://cors.bridged.cc/https://jobs.github.com/positions/${id}.json?markdown=true`
-    );
+// const handleSelectJob = async (id) => {
+//   try {
+//     const res = await axios.get(
+//       `https://cors.bridged.cc/https://jobs.github.com/positions/${id}.json?markdown=true`
+//     );
 
-    const detalis = jobDetails(res.data);
-    console.log(res.data);
-    content.innerHTML = detalis;
-  } catch (errors) {
-    console.log(errors);
-  }
-};
+//     const detalis = jobDetails(res.data);
+//     console.log(res.data);
+//     content.innerHTML = detalis;
+//   } catch (errors) {
+//     console.log(errors);
+//   }
+// };
 
 // fetch all Jobs list
 
 const fetchData = async (params = {}) => {
   try {
-    const res = await axios.get(
-      'https://cors.bridged.cc/https://jobs.github.com/positions.json',
-      { params }
-    );
+    const res = await axios.get('./data.json', { params });
     console.log(res.data);
     return res.data;
   } catch (errors) {
@@ -51,25 +48,18 @@ const getTimeByDifference = (date) => {
   return timeByDays > 0 ? `${timeByDays}d ago` : `${timeByHours}h ago`;
 };
 
-const companyLogo = (job) => {
-  return job.company_logo
-    ? `
-<img class="company-logo" src=${job.company_logo} alt=${job.company}>`
-    : '<div class="company-logo"></div>';
-};
 // create job card
 
 const JobCard = (job) => {
   const card = document.createElement('div');
   card.classList.add('job-card');
   card.id = job.id;
-  const time = getTimeByDifference(job.created_at);
 
   card.innerHTML = `
-  ${companyLogo(job)}
+  <img class="company-logo" src=${job.logo} alt=${job.company}>
   <div class="card-content">
-    <p>${time} . ${job.type}</p>
-    <h3>${job.title}</h3>
+    <p>${job.postedAt}   ${job.contract}</p>
+    <h3>${job.position}</h3>
     <p>${job.company}</p>
     <p class="location">${job.location}</p>
   </div>
@@ -96,7 +86,7 @@ const jobDetails = (job) => {
     job.created_at
   )}</span></p>
     <div class="flex">
-     <h1 "class="margin-l">${job.title}</h1>
+     <h1 "class="margin-l">${job.position}</h1>
      <button class="btn"><a href="${job.how_to_apply}">Apply Now</a></button>
     </div>
     <p class="location">${job.location}</p>
@@ -137,14 +127,12 @@ const createJobList = async (params = {}) => {
     jobsList.innerHTML =
       '<h3 class="message">There is no jobs with these description</h3>';
   } else {
-    jobs.forEach((job, i) => {
-      if (i < count) {
-        const card = JobCard(job);
-        jobsList.append(card);
-        card.addEventListener('click', () => {
-          handleSelectJob(card.id);
-        });
-      }
+    jobs.forEach((job) => {
+      const card = JobCard(job);
+      jobsList.append(card);
+      // card.addEventListener('click', () => {
+      //   handleSelectJob(card.id);
+      // });
     });
   }
   handleBtnVisabilty(jobs);
