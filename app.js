@@ -7,21 +7,15 @@ const fullTimeInput = document.getElementById('checkBox');
 const toggleInput = document.getElementById('toggleInput');
 const logo = document.getElementById('logo');
 
+const jobsData = [];
+
 // fetch single job
 
-// const handleSelectJob = async (id) => {
-//   try {
-//     const res = await axios.get(
-//       `https://cors.bridged.cc/https://jobs.github.com/positions/${id}.json?markdown=true`
-//     );
-
-//     const detalis = jobDetails(res.data);
-//     console.log(res.data);
-//     content.innerHTML = detalis;
-//   } catch (errors) {
-//     console.log(errors);
-//   }
-// };
+const handleSelectJob = async (id) => {
+  const detalis = jobDetails(job);
+  console.log(res.data);
+  content.innerHTML = detalis;
+};
 
 // fetch all Jobs list
 
@@ -33,19 +27,6 @@ const fetchData = async (params = {}) => {
   } catch (errors) {
     console.log(errors);
   }
-};
-
-// get the job date
-
-const getTimeByDifference = (date) => {
-  const timeDifference = new Date().getTime() - new Date(date).getTime();
-  const day = 1000 * 60 * 60 * 24;
-  const hour = 1000 * 60 * 60;
-
-  const timeByDays = Math.round(timeDifference / day);
-  const timeByHours = Math.round(timeDifference / hour);
-
-  return timeByDays > 0 ? `${timeByDays}d ago` : `${timeByHours}h ago`;
 };
 
 // create job card
@@ -73,15 +54,14 @@ const JobCard = (job) => {
 
 const jobDetails = (job) => {
   const details = `
-  
+
   <div class="flex job-header container">
   ${companyLogo(job)}
   <h2>${job.company}</h2>
   <button class="btn"><a href="${job.company_url}">Company Site</a></button>
  </div>
   <div class="container job-details">
-    
- 
+
     <p class="margin-l">${job.type} <span >.${getTimeByDifference(
     job.created_at
   )}</span></p>
@@ -102,24 +82,6 @@ const jobDetails = (job) => {
 };
 
 // render All jobs list
-let count = 12;
-const btn = document.createElement('button');
-
-const handleBtnVisabilty = (jobs) => {
-  if (count === 12 && jobs.length > count) {
-    btn.innerText = 'Load More';
-    btn.classList.add('btn');
-    btn.classList.remove('hide');
-
-    jobsList.after(btn);
-    btn.addEventListener('click', () => {
-      count = 50;
-      renderJobs();
-    });
-  } else {
-    btn.classList.add('hide');
-  }
-};
 
 const createJobList = async (params = {}) => {
   const jobs = await fetchData(params);
@@ -130,12 +92,11 @@ const createJobList = async (params = {}) => {
     jobs.forEach((job) => {
       const card = JobCard(job);
       jobsList.append(card);
-      // card.addEventListener('click', () => {
-      //   handleSelectJob(card.id);
-      // });
+      card.addEventListener('click', () => {
+        handleSelectJob(card.id);
+      });
     });
   }
-  handleBtnVisabilty(jobs);
 };
 
 const renderJobs = () => {
